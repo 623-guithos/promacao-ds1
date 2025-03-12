@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo Matemático</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .feedback {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jogo de Matemática!</h1>
+  <div id="question"></div>
+  <input type="number" id="answer" placeholder="Sua resposta">
+  <button onclick="checkAnswer()">Enviar</button>
+  <div id="feedback" class="feedback"></div>
+  <div id="score"></div>
+
+  <script>
+    let score = 0;
+    let timeLimit = 10; // Limite de tempo em segundos
+    let timer;
+    let currentQuestion;
+
+    // Função para gerar perguntas
+    function generateQuestion() {
+      const num1 = Math.floor(Math.random() * 10) + 1;
+      const num2 = Math.floor(Math.random() * 10) + 1;
+      const operations = ["+", "-", "*"];
+      const operation = operations[Math.floor(Math.random() * operations.length)];
+      const questionText = `${num1} ${operation} ${num2}`;
+      const answer = eval(questionText); // Calcula a resposta correta
+      currentQuestion = { questionText, answer };
+      document.getElementById("question").innerText = `Resolva: ${questionText}`;
+      startTimer();
+    }
+
+    // Função para verificar resposta
+    function checkAnswer() {
+      const userAnswer = parseInt(document.getElementById("answer").value);
+      clearInterval(timer); // Interrompe o temporizador
+      if (userAnswer === currentQuestion.answer) {
+        document.getElementById("feedback").innerText = "Correto! 🎉";
+        score += 10;
+      } else {
+        document.getElementById("feedback").innerText = "Errado! 😢";
+      }
+      document.getElementById("score").innerText = `Pontuação: ${score}`;
+      document.getElementById("answer").value = ""; // Limpa o campo de resposta
+      generateQuestion(); // Gera uma nova pergunta
+    }
+
+    // Função para iniciar o cronômetro
+    function startTimer() {
+      let timeLeft = timeLimit;
+      document.getElementById("feedback").innerText = `Tempo restante: ${timeLeft}s`;
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("feedback").innerText = `Tempo restante: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById("feedback").innerText = "Tempo esgotado! 😢";
+          generateQuestion(); // Gera uma nova pergunta
+        }
+      }, 1000);
+    }
+
+    // Inicializa o jogo
+    generateQuestion();
+  </script>
+</body>
+</html>
