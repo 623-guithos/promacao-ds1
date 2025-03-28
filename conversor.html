@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de .txt para PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        iframe {
+            margin-top: 20px;
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conversor de .txt para PDF</h1>
+    <input type="file" id="txtFile" accept=".txt">
+    <button onclick="gerarPDF()">Gerar PDF</button>
+    <div id="pdfViewer"></div>
+
+    <script>
+        async function gerarPDF() {
+            const fileInput = document.getElementById('txtFile');
+            const pdfViewer = document.getElementById('pdfViewer');
+
+            if (!fileInput.files.length) {
+                alert('Por favor, selecione um arquivo .txt.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const fileContent = event.target.result;
+
+                // Criar o PDF com jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Adicionar conteúdo ao PDF
+                const lines = fileContent.split('\n');
+                let y = 10; // Posição inicial no PDF
+
+                lines.forEach((line) => {
+                    doc.text(line, 10, y);
+                    y += 10; // Incrementa a posição para a próxima linha
+                    if (y > 280) { // Cria nova página se necessário
+                        doc.addPage();
+                        y = 10;
+                    }
+                });
+
+                // Renderizar o PDF na página
+                const pdfURL = doc.output('bloburl');
+                pdfViewer.innerHTML = `<iframe src="${pdfURL}"></iframe>`;
+
+                // Baixar automaticamente o PDF
+                doc.save('arquivo.pdf');
+            };
+
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
