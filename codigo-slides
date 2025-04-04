@@ -1,0 +1,35 @@
+// Seleciona o elemento de imagem do slideshow
+var slide = document.querySelector('.slideshow');
+
+// Array com os caminhos das imagens
+var images = [
+  './img/1.jpg',
+  './img/2.jpg',
+  './img/3.jpg'
+];
+
+// Tempo de espera entre as imagens (em milissegundos)
+var time = 2000;
+
+// Índice da imagem atual
+var count = 0;
+
+// Função para exibir a próxima imagem do slideshow
+function moveSlideShow() {
+  // Define o atributo src da imagem com o caminho da imagem atual
+  slide.src = images[count];
+
+  // Incrementa o índice da imagem
+  count++;
+
+  // Se o índice for maior que o número de imagens, volta para a primeira imagem
+  if (count >= images.length) {
+    count = 0;
+  }
+
+  // Chama a função moveSlideShow novamente após o tempo de espera
+  setTimeout(moveSlideShow, time);
+}
+
+// Inicia o slideshow quando a página é carregada
+window.onload = moveSlideShow;
