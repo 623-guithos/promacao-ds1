@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Slideshow</title>
+<style>
+  .slideshow {
+    width: 300px; /* Defina a largura desejada */
+    height: 200px; /* Defina a altura desejada */
+    border: 1px solid #ccc; /* Adiciona uma borda para visualização */
+  }
+</style>
+</head>
+<body>
+
+<img class="slideshow" src="" alt="Slideshow de Imagens">
+
+<script>
+  var slide = document.querySelector('.slideshow');
+  var images = [
+    'https://istoedinheiro.com.br/wp-content/uploads/sites/17/2022/06/lebron.jpg',
+    'https://static.wikia.nocookie.net/totalwar-ar/images/8/88/Michael_Jordan.jpg/revision/latest/scale-to-width-down/261?cb=20171201172320',
+    'https://media.gettyimages.com/id/71167194/pt/foto/philadelphia-kobe-bryant-of-the-los-angeles-lakers-poses-with-the-nba-championship-trophy-after.jpg?s=612x612&w=gi&k=20&c=WxD6QH8k33cRnovT7BfwwyHPaTxTXqwFWQagi2ZgaSM='
+  ];
+  var time = 2000;
+  var count = 0;
+
+  function moveSlideShow(){
+    slide.src = images[count];
+
+    if(count < images.length - 1){
+      count++;
+    } else {
+      count = 0;
+    }
+
+    setTimeout(moveSlideShow, time);
+  }
+
+  window.onload = moveSlideShow;
+</script>
+
+</body>
+</html>
