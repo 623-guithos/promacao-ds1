@@ -1,0 +1,12 @@
+ # Programa para classificar produtos de acordo com o preço
+
+# Solicita o preço do produto ao usuário
+preco = float(input("Digite o preço do produto (em R$): "))
+
+# Classifica o produto de acordo com o preço
+if preco <= 100:
+    print("Produto classificado como: Baixo custo")
+elif 101 <= preco <= 500:
+    print("Produto classificado como: Médio custo")
+else:
+    print("Produto classificado como: Alto custo")
